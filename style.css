@@ -1,0 +1,203 @@
+@import url('https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    color: #ffc20e;
+    font-family: "Exo 2", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    background-image: repeating-linear-gradient(45deg, rgba(113,113,113, 0.1) 0px, rgba(113,113,113, 0.1) 4px,transparent 5px, transparent 8px),linear-gradient(90deg, rgb(0,0,0),rgb(0,0,0));
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    padding: 30px;
+    border: 1px solid white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 500px;
+    height: auto;
+    max-height: 85vh;
+    overflow-y: auto;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-weight: 800;
+    font-size: 40px;
+    letter-spacing: 3px;
+    word-spacing: 8px;
+}
+
+.summary {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    gap: 10px;
+    padding: 10px;
+    border: 0.5px solid #fff;
+}
+
+.summary div {
+    flex: 1;
+    text-align: center;
+    font-weight: 400;
+}
+
+form {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    margin-bottom: 20px;
+    overflow-y: auto;
+}
+
+form::-webkit-scrollbar,
+.table-container::-webkit-scrollbar {
+    display: none; 
+}
+
+form {
+    scrollbar-width: none;  
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+label {
+    margin-bottom: 5px;
+    font-weight: 400;
+}
+
+input[type="date"],
+input[type="number"],
+input[type="text"],
+select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ffc20e;
+    color: black;
+    border-radius: 0;
+}
+
+.currency-input {
+    display: flex;
+    align-items: center;
+}
+
+.currency-input span {
+    padding: 6.4px;
+    background-color: #ffc20e;
+    color: #000;
+    border: 1px solid #ffc20e;
+    border-right: none;
+}
+
+.currency-input input[type="number"] {
+    border-radius: 0 0 0 0;
+    border: 1px solid #ffc20e;
+}
+
+button {
+    width: 100%;
+    padding: 8px;
+    border: none;
+    color: #000;
+    cursor: pointer;
+    border: 1px solid #ffb700;
+    border-radius: 0px;
+}
+
+button:hover {
+    background-color: #ffc20e;
+    border: 1px solid #ffb700;
+}
+
+.table-container {
+    max-height: 200px;
+    overflow-y: auto;  
+    scrollbar-width: none;  
+}
+
+.table-container::-webkit-scrollbar {
+    display: none;  
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    justify-content: center;
+    align-items: center;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ffc20e;
+    color: #fff;
+    background-color: #000;
+}
+
+th {
+    background-color: #ffc20e;
+    color: #000;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #222;
+}
+
+tbody tr:nth-child(odd) {
+    background-color: #333;
+}
+
+.filters {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.filters label {
+    cursor: pointer;
+}
+
+#entry-list {
+    list-style: none;
+}
+
+.entry button {
+    background-color: red;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.delete-icon {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+.hidden {
+    display: none;
+}
