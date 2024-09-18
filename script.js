@@ -6,6 +6,8 @@ const netBalanceElement = document.getElementById('net-balance');
 const filterOptions = document.querySelectorAll('input[name="filter"]');
 
 let entries = JSON.parse(localStorage.getItem('entries')) || [];
+let editIndex = null;
+
 
 function updateTotals() {
   const totalIncome = entries
@@ -21,101 +23,84 @@ function updateTotals() {
   netBalanceElement.textContent = `₹${netBalance}`;
 }
 
+
 function displayEntries(filter = 'all') {
   entryList.innerHTML = '';
 
-  const filteredEntries = entries.filter(entry => {
-    if (filter === 'all') return true;
-    return entry.type === filter;
-  });
+  const filteredEntries = entries.filter(entry => 
+    filter === 'all' || entry.type === filter
+  );
 
   filteredEntries.forEach((entry, index) => {
-    const tr = document.createElement('tr');
+    const row = document.createElement('tr');
 
-    tr.innerHTML = `
-      <td>${capitalizeFirstLetter(entry.type)}</td>
+    row.innerHTML = `
+      <td>${entry.type}</td>
       <td>${entry.date}</td>
       <td>${entry.description}</td>
       <td>₹${entry.amount}</td>
-      <td>
-        <img src="delete-icon.png" alt="Delete" class="delete-icon" onclick="deleteEntry(${index})">
+      <td class="edt">
+        <img src="edit-icon.png" class="edit-icon" alt="Edit" onclick="editEntry(${index})">
+        <img src="delete-icon.png" class="delete-icon" alt="Delete" onclick="deleteEntry(${index})">
       </td>
     `;
-
-    entryList.appendChild(tr);
+    
+    entryList.appendChild(row);
   });
 }
 
-function addEntry(description, amount, type, date) {
-  entries.push({ description, amount: +amount, type, date });
+
+function addOrEditEntry(event) {
+  event.preventDefault();
+
+  const type = document.getElementById('type').value;
+  const date = document.getElementById('date').value;
+  const description = document.getElementById('description').value;
+  const amount = parseFloat(document.getElementById('amount').value);
+
+  if (editIndex === null) {
+   
+    entries.push({ type, date, description, amount });
+  } else {
+   
+    entries[editIndex] = { type, date, description, amount };
+    editIndex = null;
+  }
+
   localStorage.setItem('entries', JSON.stringify(entries));
-  updateTotals();
+  entryForm.reset();
   displayEntries();
-  toggleTableVisibility();
+  updateTotals();
 }
+
+
+function editEntry(index) {
+  const entry = entries[index];
+  document.getElementById('type').value = entry.type;
+  document.getElementById('date').value = entry.date;
+  document.getElementById('description').value = entry.description;
+  document.getElementById('amount').value = entry.amount;
+  editIndex = index;
+}
+
 
 function deleteEntry(index) {
   entries.splice(index, 1);
   localStorage.setItem('entries', JSON.stringify(entries));
-  updateTotals();
   displayEntries();
-  toggleTableVisibility();
+  updateTotals();
 }
 
-function toggleTableVisibility() {
-  const entryTable = document.getElementById('entry-table');
-  if (entries.length > 0) {
-    entryTable.classList.remove('hidden');
-  } else {
-    entryTable.classList.add('hidden');
-  }
-}
 
-function capitalizeFirstLetter(string) {
-  return string.charAt(0).toUpperCase() + string.slice(1);
-}
+entryForm.addEventListener('submit', addOrEditEntry);
 
-entryForm.addEventListener('submit', (e) => {
-  e.preventDefault();
-
-  const type = document.getElementById('type').value;
-  const date = document.getElementById('date').value;
-  const description = document.getElementById('description').value.trim();
-  const amount = document.getElementById('amount').value.trim();
-
-  if (!type) {
-    alert('Please select a type (Income or Expense)');
-    return;
-  }
-
-  if (!date) {
-    alert('Please select a date');
-    return;
-  }
-
-  if (!description) {
-    alert('Please enter a description');
-    return;
-  }
-
-  if (!amount || amount <= 0) {
-    alert('Please enter a valid amount');
-    return;
-  }
-
-  addEntry(description, amount, type, date);
-  entryForm.reset();
-});
 
 filterOptions.forEach(option => {
   option.addEventListener('change', (e) => {
-    const filterValue = e.target.value;
-    displayEntries(filterValue);
+    displayEntries(e.target.value);
   });
 });
 
-document.addEventListener('DOMContentLoaded', () => {
-  updateTotals();
-  displayEntries();
-  toggleTableVisibility();
-});
+
+displayEntries();
+updateTotals();
